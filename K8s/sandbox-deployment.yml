@@ -1,11 +1,11 @@
-apiVersion: app/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name:  sandbox-deployment
   labels:
     name:  my-name
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: sandbox
@@ -41,5 +41,5 @@ spec:
           value:  ENVVARVALUE       
         ports:
         - containerPort:  3000
-          name:  main-sandbox-container
+          name: sandbox-contain
        

@@ -1,9 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: codeSpace-ingress
+  name: codespace-ingress
   labels:
-    app.kubernetes.io/name: 
+    app.kubernetes.io/name: sandbox
 spec:
   ingressClassName: ngnix
   rules:
