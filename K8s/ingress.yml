@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: sandbox
 spec:
-  ingressClassName: ngnix
+  ingressClassName: nginx
   rules:
     - http:
         paths:

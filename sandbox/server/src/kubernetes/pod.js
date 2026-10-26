@@ -1,4 +1,4 @@
-import { K8sCoreV1Api } from "./config";
+import { K8sCoreV1Api } from "./config.js";
 
 export async function createPod(sandboxId) {
  
@@ -15,7 +15,7 @@ export async function createPod(sandboxId) {
             containers: [
                 {
                     image: "template",
-                    imagePullPolicy: "ifNotPresent",
+                    imagePullPolicy: "IfNotPresent",
                     name: "sandbox-container",
                     ports: [{
                         containerPort: 5173,
@@ -24,9 +24,9 @@ export async function createPod(sandboxId) {
                     resources: {
                         limits: {
                             cpu: "500m",
-                            memory: "128Gi"
+                            memory: "1Gi"
                         },
-                        request: {
+                        requests: {
                             cpu: "250m",
                             memory: "500Mi"
                         }
@@ -36,6 +36,11 @@ export async function createPod(sandboxId) {
             ]
         }
     }
+
+    console.log(
+        "Creating Pod:",
+        JSON.stringify(podManifest, null, 2)
+    );
 
     // ab pod create kr rhe h ham 
     const response = await K8sCoreV1Api.createNamespacedPod({
