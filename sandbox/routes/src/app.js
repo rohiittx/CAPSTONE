@@ -16,7 +16,10 @@ app.get("/api/status/readyz",(req,res)=>{
  
 const proxies = {}
 
-function getProxy(sandboxId,target){
+function getProxy(sandboxId){
+
+    const target = `http://sandbox-service-${sandboxId}` // construct traget url based on sandboxId
+
     if(!proxies[sandboxId]){
         proxies[sandboxId] = createProxyMiddleware({
             target,
@@ -28,14 +31,13 @@ function getProxy(sandboxId,target){
 }
 
 app.use((req,res,next)=>{
-    const host = req.header.host
+    const host = req.headers.host
     const sandboxId = host.split(".")[0] 
     // extract sandboxId from subdomain eg=> jese pod1.preview.localhost h to mujhe pod1 chaiye to uske liye hamne split kiya h ise dot(".")
     //  k basis pr ki jo first dot se pehle ka ki values h usko select kro
 
-    const target = `http://sandbox-service-${sandboxId}` // construct traget url based on sandboxId
 
-    return getProxy(sandboxId)(target)(req,res,next)
+    return getProxy(sandboxId)(req,res,next)
 })
 
 export default app
