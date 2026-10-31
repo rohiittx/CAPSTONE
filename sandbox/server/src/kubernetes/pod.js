@@ -37,11 +37,6 @@ export async function createPod(sandboxId) {
         }
     }
 
-    console.log(
-        "Creating Pod:",
-        JSON.stringify(podManifest, null, 2)
-    );
-
     // ab pod create kr rhe h ham 
     const response = await K8sCoreV1Api.createNamespacedPod({
         namespace: "default",

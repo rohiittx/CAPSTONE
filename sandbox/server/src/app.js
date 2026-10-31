@@ -20,12 +20,17 @@ app.get("/api/sandbox/health", (req,res)=>{
 
 // ye ek api create kr rhe h jab user is api pr request krega to ek pod or service create hogi or ek sandboxId bhi generate hogi
 app.post("/api/sandbox/start", async (req,res) =>{
+
     const sandboxId = uuid();
 
-    await Promise.all([
-        createPod(sandboxId),
-        createService(sandboxId)
-    ]);
+    try {
+        await Promise.all([
+            createPod(sandboxId),
+            createService(sandboxId)
+        ]);
+    } catch (error) {
+        console.log("Sandbox creation failed", error);
+    }
 
     return res.status(201).json({
         message: "sandbox environment created successfully",
