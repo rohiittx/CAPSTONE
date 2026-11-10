@@ -13,6 +13,12 @@ app.get("/api/status/healthz",(req,res)=>{
 app.get("/api/status/readyz",(req,res)=>{
     res.status(200).json({ status: "ready"})
 })
+
+/**
+ * jo router server hoga vo dono type ki url ko serve krega 
+ * pod1.preview.localhost
+ * pod1.agent.localhost
+ */
  
 const proxies = {}
 
@@ -30,6 +36,22 @@ function getProxy(sandboxId){
     return proxies[sandboxId]
 }
 
+const agentProxies = {}
+
+function getAgentProxy(sandboxId){
+
+    const target = `http://sandbox-service-${sandboxId}:3000` // construct traget url based on sandboxId
+
+    if(!agentProxies[sandboxId]){
+        agentProxies[sandboxId] = createProxyMiddleware({
+            target,
+            changeOrigin: true,
+            ws: true
+        })
+    }
+    return agentProxies[sandboxId]
+}
+
 app.use((req,res,next)=>{
 
     const host = req.headers.host
@@ -37,8 +59,12 @@ app.use((req,res,next)=>{
     // extract sandboxId from subdomain eg=> jese pod1.preview.localhost h to mujhe pod1 chaiye to uske liye hamne split kiya h ise dot(".")
     //  k basis pr ki jo first dot se pehle ka ki values h 
 
+    if(host.split('.')[ 1 ] === 'agent'){
+        return getAgentProxy(sandboxId)(req,res,next)
+    } else if (host.split('.')[ 1 ] === 'agent'){     
+        return getProxy(sandboxId)(req,res,next)
+    }
 
-    return getProxy(sandboxId)(req,res,next)
 })
 
 export default app
