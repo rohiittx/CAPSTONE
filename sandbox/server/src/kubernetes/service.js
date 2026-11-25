@@ -42,7 +42,7 @@ export const createService = async (sandboxId) => {
   if (!sandboxId) {
     throw new Error("sandboxId is missing");
   }
-``
+
   if (!serviceManifest.metadata?.name) {
     throw new Error("Service metadata.name is missing");
   }

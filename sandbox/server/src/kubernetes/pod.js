@@ -55,11 +55,11 @@ export async function createPod(sandboxId) {
                     resources: {
                         limits: {
                             cpu: "500m",
-                            memory: "1Gi"
+                            memory: "500Mi"
                         },
                         requests: {
                             cpu: "250m",
-                            memory: "500Mi"
+                            memory: "250Mi"
                         }
 
                     },
@@ -79,8 +79,8 @@ export async function createPod(sandboxId) {
                     name: "agent-container",
                     ports:[ { containerPort: 3000, name: "http" }],
                     resources: {
-                        limits: { cpu: "500m", memory: "1Gi"},
-                        request: { cpu: "250m", memory: "500Mi"}
+                        limits: { cpu: "500m", memory: "500Mi"},
+                        requests: { cpu: "250m", memory: "250Mi"}
                     },
 
                     // yha ham sync kr rhe h agent container ko workspace_volume se

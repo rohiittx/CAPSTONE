@@ -59,10 +59,12 @@ app.use((req,res,next)=>{
     // extract sandboxId from subdomain eg=> jese pod1.preview.localhost h to mujhe pod1 chaiye to uske liye hamne split kiya h ise dot(".")
     //  k basis pr ki jo first dot se pehle ka ki values h 
 
-    if(host.split('.')[ 1 ] === 'agent'){
+    if( host.split('.')[ 1 ] === 'agent' ){
         return getAgentProxy(sandboxId)(req,res,next)
-    } else if (host.split('.')[ 1 ] === 'agent'){     
+    } else if (host.split('.')[ 1 ] === 'preview'){     
         return getProxy(sandboxId)(req,res,next)
+    } else {
+        return res.status(404).send("Unknown host")
     }
 
 })
